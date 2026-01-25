@@ -89,6 +89,8 @@ DOCUMENTATION UPDATING LIST
 * Add notes for CSV commands & update to mention onsen support with version number (once released)
   \--> Add csvdelete command
 
+* Add tablegosub command
+
 
 TODO LIST
 

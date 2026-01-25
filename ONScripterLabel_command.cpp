@@ -470,13 +470,20 @@ int ONScripterLabel::talCommand()
 
 int ONScripterLabel::tablegotoCommand()
 {
+    bool tablegosub_flag = false;
+    if (script_h.isName("tablegosub")) tablegosub_flag = true;
+
     int count = 0;
     int no = script_h.readInt();
 
     while( script_h.getEndStatus() & ScriptHandler::END_COMMA ){
         const char *buf = script_h.readLabel();
         if ( count++ == no ){
-            setCurrentLabel( buf+1 );
+            if (tablegosub_flag == false) // tablegoto
+                setCurrentLabel( buf+1 );
+            else
+                gosubReal( buf+1, script_h.getNext() ); // tablegosub
+
             break;
         }
     }

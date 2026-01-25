@@ -128,6 +128,7 @@ static struct FuncLUT{
     {"tateyoko",   &ONScripterLabel::tateyokoCommand},
     {"tal", &ONScripterLabel::talCommand},
     {"tablegoto",   &ONScripterLabel::tablegotoCommand},
+    {"tablegosub",   &ONScripterLabel::tablegotoCommand},
     {"systemcall",   &ONScripterLabel::systemcallCommand},
     {"strsph",   &ONScripterLabel::strspCommand},
     {"strsp",   &ONScripterLabel::strspCommand},
