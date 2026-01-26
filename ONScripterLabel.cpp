@@ -1228,7 +1228,7 @@ int ONScripterLabel::init()
 #if defined(MACOSX)
     char* macos_font_file;
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *hiraginoPath = @"/System/Library/Fonts/ヒラギノ丸コ�? ProN W4.ttc";
+    NSString *hiraginoPath = [NSString stringWithCString:(const char *)shiftjis_data::paths::hiragino_shiftjis encoding:NSShiftJISStringEncoding];
     if ([fm fileExistsAtPath:hiraginoPath])
     {
         macos_font_file = new char[ strlen([hiraginoPath UTF8String]) + 1 ];
@@ -2448,6 +2448,13 @@ void ONScripterLabel::decodeExbtnControl( const char *ctl_str, SDL_Rect *check_s
             else
                 cell_no = 0;
             refreshSprite( sprite_no, true, cell_no, check_src_rect, check_dst_rect );
+# if 0
+            if ( sprite_info[sprite_no].is_animatable )
+                forceResetAnimTimer();
+#else
+            // Needs a kick-start here
+            advanceAnimPhase();
+#endif
         }
         else if (com == 'S' || com == 's'){
             sprite_no = getNumberFromBuffer( &ctl_str );

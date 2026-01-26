@@ -34,6 +34,7 @@
 #include "Encoding.h"
 #include "ONScripterLabel.h"
 #include "graphics_resize.h"
+#include "ShiftJISData.h"
 #include "version.h"
 
 #include <cstdio>
@@ -210,13 +211,13 @@ int ONScripterLabel::vspCommand()
     if (vsp2_flag){
         if (sprite2_info[ no ].image_surface &&
             (visible != sprite2_info[ no ].visible))
-            dirty_rect.add( sprite2_info[no].bounding_rect );
+            dirty_rect.add( sprite2_info[ no ].bounding_rect );
         sprite2_info[ no ].visible = visible;
     }
     else {
         if (sprite_info[ no ].image_surface &&
             (visible != sprite_info[ no ].visible))
-            dirty_rect.add( sprite_info[no].pos );
+            dirty_rect.add( sprite_info[ no ].pos );
         sprite_info[ no ].visible = visible;
         if ((v==0) && sprite_info[ no ].is_animatable){
             sprite_info[ no ].current_cell = 0;
@@ -789,7 +790,7 @@ int ONScripterLabel::splitonceCommand()
 
     // Advance buffer
     save_buf += c;
-    if (save_buf != '\0') save_buf++; // Don't include the delimeter in the remainder, unless we had no delimeter.
+    if (*save_buf != '\0') save_buf++; // Don't include the delimeter in the remainder, unless we had no delimeter.
     // If we have more of the string, save it into another variable
     //
     // UPDATE: do this no matter what. If there is nothing left over,
@@ -2310,7 +2311,9 @@ int ONScripterLabel::lspCommand()
 
     if ( sprite_info[no].visible )
         dirty_rect.add( sprite_info[no].pos );
-    if ( sprite_info[ no ].is_animatable ) advanceAnimPhase();
+    if ( sprite_info[ no ].is_animatable ) {
+        advanceAnimPhase();
+    }
 
     return RET_CONTINUE;
 }
@@ -2939,7 +2942,7 @@ int ONScripterLabel::gettagCommand()
 
                 else {
                     unicode1 = script_h.enc.getUTF16(buf);
-                    unicode2 = script_h.enc.getUTF16("?¿½?¿½", Encoding::CODE_CP932);
+                    unicode2 = script_h.enc.getUTF16((const char *)shiftjis_data::inserts::questions, Encoding::CODE_CP932);
                     while(*buf != '/' && *buf != 0 && unicode1 != unicode2) {
                         buf += script_h.enc.getBytes(buf[0]);
                     }
